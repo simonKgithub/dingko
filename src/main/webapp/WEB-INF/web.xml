@@ -23,6 +23,20 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
+    <!--한글 인코딩 설정-->
+    <filter>
+        <filter-name>encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- 스프링 시큐리티 설정 -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>

@@ -19,6 +19,16 @@
             login-processing-url을 명시적으로 지정하지 않으면 form 액션도 default 값(/login)으로 자동 세팅되어 적지 않아도 상관 없음
          -->
 
+        <security:intercept-url pattern="/resources/**" access="permitAll"/>
+        <security:intercept-url pattern="/auth/login.do" access="permitAll"/>
+        <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/index.do" access="permitAll"/>
+        <security:intercept-url pattern="/join/member.do" access="permitAll"/>
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <security:csrf disabled="true"/><!-- 외부 회원가입 시 disable true로 설정을 해 줘야한다.
+         나머지 공격에 대한 방어 코드 작성을 알아봐야함-->
+
     </security:http>
 
     <security:authentication-manager>

@@ -18,6 +18,28 @@
     <!-- applicationContext 역할 :
         view와 관련되지 않은 객체를 정의 (Service, Repositoty(DAO), DB 등 비즈니스 로직과 관련된 설정) -->
 
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="dingko"/>
+        <property name="password" value="1234"/>
+    </bean>
+    <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:com/example/dingko/*/mapper/*Mapper.xml"/>
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="SqlSessionFactory"/>
+    </bean>
 
+    <context:component-scan base-package="com.example.dingko.*.service" />
+    <context:component-scan base-package="com.example.dingko.*.mapper" />
+    <!-- 파악하기: 이걸 주지 않으면 @어노테이션 인식을 못함
+        해당 패키지 하위의 매퍼들을 스캔함과 동시에 Repository로 설정된 매퍼들을 autowired 어노테이션으로
+        끌어오도록 세팅, MapperScannerConfigurer를 사용하므로 따로 DAO 등록 할 필요 없음
+    -->
+    <mybatis-spring:scan base-package="com.example.dingko.*.mapper" />
 
+    <!-- <context:annotation-config />  왜 사용하는지 파악하기 -->
 </beans>
