@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dingko.common.mapper.UserMapper">
+
+    <select id="getUser" parameterType="hashmap" resultType="userVO" >
+        SELECT *
+          FROM PJ_USER
+         WHERE USER_ID = #{userId}
+        <if test="@com.example.dingko.common.utils.MapperUtil@isNotBlank(userPw)">
+           AND USER_PW = #{userPw}
+        </if>
+    </select>
+
+    <insert id="insertUser" parameterType="userVO">
+        INSERT INTO PJ_USER (
+            USER_ID
+            ,USER_PW
+            ,USER_NM
+            ,USER_PHONE_NUM
+            ,USER_EMAIL
+            ,FST_RGTT_ID
+            ,FST_RGST_DT
+        ) VALUES (
+            #{userId}
+            ,#{userPw}
+            ,#{userNm}
+            ,#{userPhoneNum}
+            ,#{userEmail}
+            ,#{userId}
+            ,TO_CHAR(SYSDATE, 'YYYYMMDD')
+        )
+    </insert>
+
+</mapper>
