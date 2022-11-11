@@ -8,9 +8,8 @@
     <script src="/resources/libs/jquery-3.6.1.min.js"></script>
     <script>
         function joinMemberProcess(){
-            let $joinProcess = $("#joinProcess").val();
             let $joinUserId = $("#joinUserId").val();
-            if($joinProcess != "" && $joinUserId != ""){
+            if($joinUserId != ""){
                 alert("회원가입이 완료되었습니다. 로그인을 진행해주세요.");
                 $("#userId").val($joinUserId);
             }
@@ -23,8 +22,7 @@
 </head>
 <body>
     <div>
-        <input type="hidden" id="joinProcess" value="${param.joinProcess}">
-        <input type="hidden" id="joinUserId" value="${param.joinUserId}">
+        <input type="hidden" id="joinUserId" value="${joinUserId}">
         <form id="loginForm" action="/login" method="post">
             <div>
                 <input type="text" id="userId" name="username" placeholder="아이디를 입력하세요." />

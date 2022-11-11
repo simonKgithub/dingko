@@ -6,6 +6,7 @@
     <script src="resources/libs/jquery-3.6.1.min.js"></script>
 </head>
 <body>
-    <h1>메인페이지</h1>
+    <h1>메인페이지</h1><br/>
+    <a href="/tdy/today.do">TODAY</a>
 </body>
 </html>

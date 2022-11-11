@@ -15,4 +15,20 @@
     <annotation-driven />
     <context:component-scan base-package="com.example.dingko.*.controller" />
 
+    <!-- post로 넘기는 페이지 뒤로가기 할 시에 캐시를 저장하지 않아 만료된 페이지로 표출하는 것
+        <mapping /> 을 사용하면 특정 url에만 적용할 수 있음
+
+    <interceptors>
+        <interceptor>
+            <mapping path="/join/member.do"/>
+            <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+                <beans:property name="cacheSeconds" value="0"/>
+                <beans:property name="useExpiresHeader" value="true"/>
+                <beans:property name="useCacheControlHeader" value="true"/>
+                <beans:property name="useCacheControlNoStore" value="true"/>
+            </beans:bean>
+        </interceptor>
+    </interceptors>
+    -->
+
 </beans:beans>
