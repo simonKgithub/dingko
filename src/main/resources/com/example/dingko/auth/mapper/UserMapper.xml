@@ -20,6 +20,7 @@
             ,USER_NM
             ,USER_PHONE_NUM
             ,USER_EMAIL
+            ,AUTH
             ,FST_RGTT_ID
             ,FST_RGST_DT
         ) VALUES (
@@ -28,6 +29,7 @@
             ,#{userNm}
             ,#{userPhoneNum}
             ,#{userEmail}
+            ,'ROLE_USER'
             ,#{userId}
             ,TO_CHAR(SYSDATE, 'YYYYMMDD')
         )

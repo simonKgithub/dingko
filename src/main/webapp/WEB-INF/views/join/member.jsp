@@ -20,7 +20,7 @@
                 }
                 let params = {"userId" : $userId};
                 $.ajax({
-                    type: "POST",
+                    type: "POST", //POST로 하면 security에서 막히기 때문에 csrf disable true로 바꿔줌
                     url: "/join/getMember.do",
                     data: params,
                     success : function(userVO){
@@ -41,12 +41,9 @@
                 let $userPw = $("#userPw").val();
                 let $userPwCheckTag = $("#userPwCheckTag");
                 if(!$thisVal){
-                    $userPwCheckTag.css("color","black");
-                    $userPwCheckTag.text("비밀번호확인");
+                    $userPwCheckTag.text("");
                     return;
-                }
-
-                if($userPw != $thisVal){
+                }else if($userPw != $thisVal){
                     $userPwCheckTag.css("color","red");
                     $userPwCheckTag.text("*비밀번호가 일치하지 않습니다");
                 } else {

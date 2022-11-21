@@ -1,5 +1,6 @@
 package com.example.dingko.auth.security;
 
+import com.example.dingko.common.domain.CustomUserDetails;
 import com.example.dingko.common.domain.UserVO;
 import com.example.dingko.common.service.UserService;
 import com.example.dingko.common.utils.HashParameterMap;
@@ -23,9 +24,13 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Autowired
     private UserService userService;
 
-    /**CustomAuthenticationProvider에서 토큰을 이쪽으로 넘겨줘서 CustomLoginSuccessHandler 역할을 해주는 것 같음*/
+    /**
+     * CustomAuthenticationProvider에서 토큰을 이쪽으로 넘겨줘서 CustomLoginSuccessHandler 역할을 해주는 것 같음
+     * 로그인 성공 후 특정한 동작을 하도록 제어하는 곳
+     * */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        UserVO details = new UserVO();
         HashParameterMap params = new HashParameterMap();
 
         //접근 IP 조회
@@ -35,6 +40,8 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             log.info("(Location : CustomAuthenticationSuccessHandler) 접근 IP : " + userIpAddress);
         }
         String userAgent = httpServletRequest.getHeader("User-Agent");
+        log.info("(Location : CustomAuthenticationSuccessHandler) userAgent : " + userAgent);
+
         String userId = authentication.getName();
 
         //헤더 정보
@@ -44,18 +51,21 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             String name = headerNames.nextElement();
             headers += name + " : " + httpServletRequest.getHeader(name) + ", ";
         }
+        details.setHeaders(headers);
         log.info("(Location : CustomAuthenticationSuccessHandler) 헤더 정보 : " + headers);
 
         //사용자 정보
         params.setString("userId", userId);
         UserVO userVO = this.userService.getUser(params.getParameterMap());
         log.info("(Location : CustomAuthenticationSuccessHandler) 유저 정보 : " + userVO);
+//        details.setUserVO(userVO);
 
         //userDetail 추가
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-        token.setDetails(userVO);
+        token.setDetails(details);
 
         HttpSession session = httpServletRequest.getSession();
+        //어디에 사용?
         DefaultSavedRequest savedRequest = (DefaultSavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 
         httpServletResponse.sendRedirect("/main.do");

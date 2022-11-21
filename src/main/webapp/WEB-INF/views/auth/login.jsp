@@ -12,6 +12,7 @@
             if($joinUserId != ""){
                 alert("회원가입이 완료되었습니다. 로그인을 진행해주세요.");
                 $("#userId").val($joinUserId);
+                return;
             }
         }
 
@@ -22,7 +23,14 @@
 </head>
 <body>
     <div>
+        <!--
+            joinUserId : 회원가입 성공 시 주어짐
+            logout : 로그아웃 성공 시 주어짐(logout=true)
+            error : 로그인 실패 시 주어짐 아이디나 비밀번호 오류 등 (error=access-fail)
+         -->
         <input type="hidden" id="joinUserId" value="${joinUserId}">
+        <h2><c:out value="${error}" /></h2>
+        <h2><c:out value="${logout}" /></h2>
         <form id="loginForm" action="/login" method="post">
             <div>
                 <input type="text" id="userId" name="username" placeholder="아이디를 입력하세요." />

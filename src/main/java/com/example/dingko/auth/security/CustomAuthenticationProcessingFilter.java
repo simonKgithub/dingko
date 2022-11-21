@@ -16,7 +16,7 @@ public class CustomAuthenticationProcessingFilter extends AbstractAuthentication
     /**로그인 비밀번호 파라미터 이름*/
     public static final String SECURITY_FORM_PASSWORD_KEY = "password";
     /**default filter processes url*/
-    public static final String DEFAULT_FILTER_PROCESSES_URL = "/login";
+    public static final String DEFAULT_FILTER_PROCESSES_URL = "/auth/login.do";
 
     public CustomAuthenticationProcessingFilter(){
         super(DEFAULT_FILTER_PROCESSES_URL);
