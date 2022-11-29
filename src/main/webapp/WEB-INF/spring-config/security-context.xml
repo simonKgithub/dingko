@@ -8,12 +8,13 @@
             http://www.springframework.org/schema/security
             http://www.springframework.org/schema/security/spring-security.xsd
        ">
-    <security:debug/><!--스프링시큐리티 디버깅 가능 민감정보가 포함되어 있어 Do not use in a production system!-->
+    <!-- 스프링시큐리티 디버깅 가능 민감정보가 포함되어 있어 Do not use in a production system!
+    <security:debug/>-->
 
     <security:http auto-config="true" use-expressions="true" authentication-manager-ref="customAuthenticationManager">
         <security:form-login
             login-page="/auth/login.do"
-            authentication-success-handler-ref="customLoginSuccessHandler"
+            authentication-success-handler-ref="customAuthenticationSuccessHandler"
         />
         <!-- 로그아웃 -->
         <security:logout
@@ -41,7 +42,7 @@
     </security:authentication-manager>
 
 
-    <bean id="customLoginSuccessHandler" class="com.example.dingko.auth.security.CustomLoginSuccessHandler" /><!-- 로그인 성공 커스텀 bean-->
+    <bean id="customAuthenticationSuccessHandler" class="com.example.dingko.auth.security.CustomAuthenticationSuccessHandler" /><!-- 로그인 성공 커스텀 bean-->
     <bean id="customAuthenticationProvider" class="com.example.dingko.auth.security.CustomAuthenticationProvider" /><!-- 권한설정 커스텀 bean-->
     <bean id="customUserDetailsService" class="com.example.dingko.auth.security.CustomUserDetailsService"/><!-- 사용자 정보 설정 커스텀 bean -->
     <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/><!--로그인 비밀번호 암호화 인코딩 bean-->

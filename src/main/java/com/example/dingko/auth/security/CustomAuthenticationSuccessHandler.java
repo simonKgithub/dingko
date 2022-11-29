@@ -30,8 +30,14 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
      * */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        UserVO details = new UserVO();
+
         HashParameterMap params = new HashParameterMap();
+        String userId = authentication.getName();
+        params.setString("userId", userId);
+
+        //사용자 정보
+        UserVO details = this.userService.getUser(params.getParameterMap());
+        log.info("(Location : CustomAuthenticationSuccessHandler) 유저 정보 : " + details);
 
         //접근 IP 조회
         String userIpAddress = httpServletRequest.getHeader("X-FORWARDED-FOR");
@@ -39,10 +45,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             userIpAddress = httpServletRequest.getRemoteAddr();
             log.info("(Location : CustomAuthenticationSuccessHandler) 접근 IP : " + userIpAddress);
         }
-        String userAgent = httpServletRequest.getHeader("User-Agent");
-        log.info("(Location : CustomAuthenticationSuccessHandler) userAgent : " + userAgent);
-
-        String userId = authentication.getName();
+//        String userAgent = httpServletRequest.getHeader("User-Agent");
+//        log.info("(Location : CustomAuthenticationSuccessHandler) userAgent : " + userAgent);
+        details.setLoginIpAddress(userIpAddress);
 
         //헤더 정보
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
@@ -54,18 +59,12 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         details.setHeaders(headers);
         log.info("(Location : CustomAuthenticationSuccessHandler) 헤더 정보 : " + headers);
 
-        //사용자 정보
-        params.setString("userId", userId);
-        UserVO userVO = this.userService.getUser(params.getParameterMap());
-        log.info("(Location : CustomAuthenticationSuccessHandler) 유저 정보 : " + userVO);
-//        details.setUserVO(userVO);
-
         //userDetail 추가
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
         token.setDetails(details);
 
-        HttpSession session = httpServletRequest.getSession();
         //어디에 사용?
+        HttpSession session = httpServletRequest.getSession();
         DefaultSavedRequest savedRequest = (DefaultSavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 
         httpServletResponse.sendRedirect("/main.do");

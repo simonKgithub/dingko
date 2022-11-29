@@ -7,6 +7,6 @@
 </head>
 <body>
     <h1>메인페이지</h1><br/>
-    <a href="/tdy/today.do">TODAY</a>
+    <a href="/plan/calendar.do">Planner</a>
 </body>
 </html>
