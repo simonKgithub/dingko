@@ -37,7 +37,7 @@ public class UserTest {
     @Test
     public void getUserTest(){
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", "test1");
+        map.put("userId", "test");
         UserVO userVO = userService.getUser(map);
 
         System.out.println(userVO);
